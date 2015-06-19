@@ -24,6 +24,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2015061900; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires = 2015050500; // Requires this Moodle version.
-$plugin->component = 'logstore_splunk'; // Full name of the plugin (used for diagnostics).
+$tasks = array(
+    array(
+        'classname' => '\logstore_splunk\task\export_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+);
