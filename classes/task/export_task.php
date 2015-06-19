@@ -56,8 +56,15 @@ class export_task extends \core\task\scheduled_task {
         // Grab the recordset.
         $rs = $DB->get_recordset_select('logstore_standard_log', 'id > ?', array($lastid), '', '*', 0, 100000);
         foreach ($rs as $row) {
-            $row->timecreated = date('d/M/Y:H:i:s O', $row->timecreated);
-            \logstore_splunk\splunk::log(json_encode($row));
+            $newrow = new \stdClass();
+            $newrow->timestamp = date(\DateTime::ISO8601, $row->timecreated);
+            foreach ((array)$row as $k => $v) {
+                if ($k !== 'timecreated') {
+                    $newrow->$k = $v;
+                }
+            }
+
+            \logstore_splunk\splunk::log(json_encode($newrow));
 
             $lastid = $row->id;
         }
