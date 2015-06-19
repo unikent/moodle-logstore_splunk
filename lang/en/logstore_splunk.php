@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Standard log';
-$string['pluginname_desc'] = 'A log plugin stores log entries in a Moodle database table.';
+$string['pluginname'] = 'Splunk log';
+$string['pluginname_desc'] = 'A log plugin storing log entries in Splunk.';
 
 $string['servername'] = 'Splunk server name';
 $string['port'] = 'Splunk server port';
