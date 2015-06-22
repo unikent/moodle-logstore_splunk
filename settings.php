@@ -54,4 +54,12 @@ if ($hassiteconfig) {
         get_string('indexname', 'logstore_splunk'),
         '', 'moodle', PARAM_ALPHANUMEXT
     ));
+
+    $settings->add(new admin_setting_configselect(
+        'logstore_splunk/mode',
+        new lang_string('mode', 'logstore_splunk'),
+        '', 'realtime', array(
+            'realtime' => new lang_string('realtime', 'logstore_splunk'),
+            'background' => new lang_string('background', 'logstore_splunk')
+        )));
 }

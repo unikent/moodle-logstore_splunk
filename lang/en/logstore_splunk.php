@@ -28,3 +28,8 @@ $string['pluginname_desc'] = 'A log plugin storing log entries in Splunk.';
 $string['servername'] = 'Splunk server name';
 $string['port'] = 'Splunk server port';
 $string['indexname'] = 'Index name';
+$string['mode'] = 'Export mode';
+$string['realtime'] = 'Realtime';
+$string['background'] = 'Background';
+
+$string['taskexport'] = 'Export to Splunk';
