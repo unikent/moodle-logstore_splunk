@@ -59,7 +59,8 @@ class store implements \tool_log\log\writer {
      * @param array $evententries raw event data
      */
     protected function insert_event_entries($evententries) {
-        if ($config->mode !== 'realtime') {
+        $mode = get_config('logstore_splunk', 'mode');
+        if ($mode !== 'realtime') {
             return;
         }
 
