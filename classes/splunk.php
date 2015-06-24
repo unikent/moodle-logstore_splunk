@@ -77,6 +77,25 @@ class splunk
     }
 
     /**
+     * Store a standard log item with Splunk.
+     */
+    public static function log_standardentry($data) {
+        $data = (array)$data;
+
+        $newrow = new \stdClass();
+        $newrow->timestamp = date(\DateTime::ISO8601, $data['timecreated']);
+        foreach ($data as $k => $v) {
+            if ($k == 'timecreated') {
+                continue;
+            }
+
+            $newrow->$k = $v;
+        }
+
+        static::log(json_encode($newrow));
+    }
+
+    /**
      * End the buffer.
      */
     public function flush() {

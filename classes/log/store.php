@@ -64,14 +64,8 @@ class store implements \tool_log\log\writer {
             return;
         }
 
-        // Build a valid string for Splunk.
-        $data = array_map(function($row) {
-            $row['timecreated'] = date('d/M/Y:H:i:s O', $row['timecreated']);
-            return json_encode($row);
-        }, $evententries);
-
-        foreach ($data as $row) {
-            \logstore_splunk\splunk::log($row);
+        foreach ($evententries as $event) {
+            \logstore_splunk\splunk::log_standardentry($event);
         }
     }
 }
