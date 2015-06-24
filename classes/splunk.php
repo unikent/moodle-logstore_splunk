@@ -69,6 +69,16 @@ class splunk
     }
 
     /**
+     * Is Splunk enabled?
+     */
+    public static function is_enabled() {
+        $enabled = get_config('tool_log', 'enabled_stores');
+        $enabled = array_flip(explode(',', $enabled));
+
+        return isset($enabled['logstore_splunk']) && $enabled['logstore_splunk'];
+    }
+
+    /**
      * Log an item with Splunk.
      */
     public static function log($data) {
