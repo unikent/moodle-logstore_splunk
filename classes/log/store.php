@@ -59,18 +59,13 @@ class store implements \tool_log\log\writer {
      * @param array $evententries raw event data
      */
     protected function insert_event_entries($evententries) {
-        if ($config->mode !== 'realtime') {
+        $mode = get_config('logstore_splunk', 'mode');
+        if ($mode !== 'realtime') {
             return;
         }
 
-        // Build a valid string for Splunk.
-        $data = array_map(function($row) {
-            $row['timecreated'] = date('d/M/Y:H:i:s O', $row['timecreated']);
-            return json_encode($row);
-        }, $evententries);
-
-        foreach ($data as $row) {
-            \logstore_splunk\splunk::log($row);
+        foreach ($evententries as $event) {
+            \logstore_splunk\splunk::log_standardentry($event);
         }
     }
 }

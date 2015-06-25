@@ -69,11 +69,40 @@ class splunk
     }
 
     /**
+     * Is Splunk enabled?
+     */
+    public static function is_enabled() {
+        $enabled = get_config('tool_log', 'enabled_stores');
+        $enabled = array_flip(explode(',', $enabled));
+
+        return isset($enabled['logstore_splunk']) && $enabled['logstore_splunk'];
+    }
+
+    /**
      * Log an item with Splunk.
      */
     public static function log($data) {
         $splunk = static::instance();
         $splunk->buffer[] = $data;
+    }
+
+    /**
+     * Store a standard log item with Splunk.
+     */
+    public static function log_standardentry($data) {
+        $data = (array)$data;
+
+        $newrow = new \stdClass();
+        $newrow->timestamp = date(\DateTime::ISO8601, $data['timecreated']);
+        foreach ($data as $k => $v) {
+            if ($k == 'timecreated') {
+                continue;
+            }
+
+            $newrow->$k = $v;
+        }
+
+        static::log(json_encode($newrow));
     }
 
     /**
