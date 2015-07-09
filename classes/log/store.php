@@ -32,6 +32,8 @@ class store implements \tool_log\log\writer {
 
     /**
      * Constructor.
+     * @param \tool_log\log\manager $manager
+     * @throws \coding_exception
      */
     public function __construct(\tool_log\log\manager $manager) {
         $this->helper_setup($manager);
