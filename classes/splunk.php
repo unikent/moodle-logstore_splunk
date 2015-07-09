@@ -80,6 +80,7 @@ class splunk
 
     /**
      * Log an item with Splunk.
+     * @param $data
      */
     public static function log($data) {
         $splunk = static::instance();
@@ -88,6 +89,7 @@ class splunk
 
     /**
      * Store a standard log item with Splunk.
+     * @param $data
      */
     public static function log_standardentry($data) {
         $data = (array)$data;
