@@ -85,6 +85,10 @@ class splunk
     public static function log($data) {
         $splunk = static::instance();
         $splunk->buffer[] = $data;
+
+        if (count($splunk->buffer) > 100) {
+            $splunk->flush();
+        }
     }
 
     /**
@@ -111,17 +115,19 @@ class splunk
      * End the buffer.
      */
     public function flush() {
+        global $CFG;
+
         if (empty($this->buffer)) {
             return;
         }
 
-        $stream = $this->service->getReceiver()->attach(array(
-            'host' => $this->config->servername,
+        $reciever = $this->service->getReceiver();
+        $reciever->submit(implode("\n", $this->buffer), array(
+            'host' => $this->config->hostname,
             'index' => $this->config->indexname,
-            'sourcetype' => 'moodle'
+            'source' => $this->config->source,
+            'sourcetype' => '_json'
         ));
-        \Splunk_Util::fwriteall($stream, implode("\n", $this->buffer));
-        fclose($stream);
 
         $this->buffer = array();
     }

@@ -55,6 +55,18 @@ if ($hassiteconfig) {
         '', 'moodle', PARAM_ALPHANUMEXT
     ));
 
+    $settings->add(new admin_setting_configtext(
+        'logstore_splunk/hostname',
+        get_string('hostname', 'logstore_splunk'),
+        '', 'moodle.kent.ac.uk', PARAM_HOST
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'logstore_splunk/source',
+        get_string('source', 'logstore_splunk'),
+        '', 'Moodle', PARAM_TEXT
+    ));
+
     $settings->add(new admin_setting_configselect(
         'logstore_splunk/mode',
         new lang_string('mode', 'logstore_splunk'),

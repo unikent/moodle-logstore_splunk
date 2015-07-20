@@ -31,5 +31,7 @@ $string['indexname'] = 'Index name';
 $string['mode'] = 'Export mode';
 $string['realtime'] = 'Realtime';
 $string['background'] = 'Background';
+$string['hostname'] = 'Hostname of sender';
+$string['source'] = 'Source name';
 
 $string['taskexport'] = 'Export to Splunk';
