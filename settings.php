@@ -28,7 +28,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/servername',
         get_string('servername', 'logstore_splunk'),
-        '', 'localhost', PARAM_ALPHANUMEXT
+        '', 'localhost', PARAM_HOST
     ));
 
     $settings->add(new admin_setting_configtext(
