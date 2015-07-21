@@ -28,6 +28,7 @@ class splunk
     private $service;
     private $config;
     private $buffer = array();
+    private $ready;
 
     /**
      * Constructor.
@@ -43,9 +44,15 @@ class splunk
             'username' => $this->config->username,
             'password' => $this->config->password
         ));
-        $this->service->login();
 
-        $this->create_index();
+        try {
+            // Login to Splunk.
+            $this->service->login();
+
+            $this->ready = true;
+        } catch (\Exception $e) {
+            $this->ready = false;
+        }
     }
 
     /**
@@ -66,6 +73,13 @@ class splunk
         if (!empty($this->buffer)) {
             $this->flush();
         }
+    }
+
+    /**
+     * Are we ready?
+     */
+    public function is_ready() {
+        return $this->ready;
     }
 
     /**
@@ -120,7 +134,7 @@ class splunk
     public function flush() {
         global $CFG;
 
-        if (empty($this->buffer)) {
+        if (empty($this->buffer) || !$this->is_ready()) {
             return;
         }
 
@@ -137,6 +151,7 @@ class splunk
 
     /**
      * Create our index.
+     * Not used normally, for performance reasons.
      */
     private function create_index() {
         $index = $this->service->getIndexes();
