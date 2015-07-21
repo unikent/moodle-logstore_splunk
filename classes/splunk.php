@@ -102,7 +102,10 @@ class splunk
         $newrow->timestamp = date(\DateTime::ISO8601, $data['timecreated']);
         foreach ($data as $k => $v) {
             if ($k == 'other') {
-                $v = unserialize($v);
+                $tmp = unserialize($v);
+                if ($tmp) {
+                    $v = unserialize($tmp);
+                }
             }
 
             $newrow->$k = $v;
