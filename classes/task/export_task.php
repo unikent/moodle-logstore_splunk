@@ -64,7 +64,7 @@ class export_task extends \core\task\scheduled_task {
         set_config('lock', 1, 'logstore_splunk');
 
         // Grab the recordset.
-        $rs = $DB->get_recordset_select('logstore_standard_log', 'id > ?', array($lastid), '', '*', 0, 100000);
+        $rs = $DB->get_recordset_select('logstore_standard_log', 'id > ?', array($lastid), 'id', '*', 0, 100000);
         foreach ($rs as $row) {
             \logstore_splunk\splunk::log_standardentry($row);
 

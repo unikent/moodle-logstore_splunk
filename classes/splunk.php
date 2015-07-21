@@ -80,7 +80,7 @@ class splunk
 
     /**
      * Log an item with Splunk.
-     * @param $data
+     * @param $data JSON
      */
     public static function log($data) {
         $splunk = static::instance();
@@ -103,8 +103,8 @@ class splunk
         foreach ($data as $k => $v) {
             if ($k == 'other') {
                 $tmp = unserialize($v);
-                if ($tmp) {
-                    $v = unserialize($tmp);
+                if ($tmp !== false) {
+                    $v = $tmp;
                 }
             }
 
