@@ -126,7 +126,7 @@ class splunk
             'host' => $this->config->hostname,
             'index' => $this->config->indexname,
             'source' => $this->config->source,
-            'sourcetype' => '_json'
+            'sourcetype' => 'json'
         ));
 
         $this->buffer = array();

@@ -43,15 +43,25 @@ class export_task extends \core\task\scheduled_task {
     public function execute() {
         global $DB;
 
+        // Check mode.
         $config = get_config('logstore_splunk');
         if ($config->mode == 'realtime') {
             return true;
         }
 
-        $lastid = $config->lastentry;
-        if (!$lastid) {
-            $lastid = -1;
+        // Check we aren't locked.
+        if (isset($config->lock) && $config->lock == 1) {
+            return true;
         }
+
+        // Grab our last ID.
+        $lastid = -1;
+        if (isset($config->lastentry)) {
+            $lastid = $config->lastentry;
+        }
+
+        // Safeguard.
+        set_config('lock', 1, 'logstore_splunk');
 
         // Grab the recordset.
         $rs = $DB->get_recordset_select('logstore_standard_log', 'id > ?', array($lastid), '', '*', 0, 100000);
@@ -62,6 +72,8 @@ class export_task extends \core\task\scheduled_task {
         }
         $rs->close();
 
+        // Update config.
+        set_config('lock', 0, 'logstore_splunk');
         set_config('lastentry', $lastid, 'logstore_splunk');
 
         return true;
