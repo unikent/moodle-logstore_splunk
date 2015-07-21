@@ -54,6 +54,12 @@ class export_task extends \core\task\scheduled_task {
             return true;
         }
 
+        // Check Splunk works.
+        $splunk = \logstore_splunk\splunk::instance();
+        if (!$splunk->is_ready()) {
+            return false;
+        }
+
         // Grab our last ID.
         $lastid = -1;
         if (isset($config->lastentry)) {
