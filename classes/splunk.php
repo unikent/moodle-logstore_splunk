@@ -103,7 +103,7 @@ class splunk
         foreach ($data as $k => $v) {
             if ($k == 'other') {
                 $tmp = unserialize($v);
-                if ($tmp) {
+                if ($tmp !== false) {
                     $v = unserialize($tmp);
                 }
             }
