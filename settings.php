@@ -25,6 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
+    $healthurl = new moodle_url('/admin/tool/log/store/splunk/health.php', array('sesskey' => sesskey()));
+    $ADMIN->add('logging', new admin_externalpage('logstoresplunkhealth', 'Splunk health', $healthurl, 'moodle/site:config'));
+
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/servername',
         get_string('servername', 'logstore_splunk'),
