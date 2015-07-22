@@ -81,6 +81,7 @@ class export_task extends \core\task\scheduled_task {
         // Update config.
         set_config('lock', 0, 'logstore_splunk');
         set_config('lastentry', $lastid, 'logstore_splunk');
+        set_config('lastrun', time(), 'logstore_splunk');
 
         return true;
     }
