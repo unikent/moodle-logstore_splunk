@@ -138,6 +138,12 @@ class splunk
             return;
         }
 
+        // Set an empty error handler, to override Kent's.
+        set_error_handler(function($errno, $errstr, $errfile, $errline) {
+            return false;
+        });
+
+        // Send to Splunk.
         $reciever = $this->service->getReceiver();
         $reciever->submit(implode("\n", $this->buffer), array(
             'host' => $this->config->hostname,
@@ -146,20 +152,9 @@ class splunk
             'sourcetype' => 'json'
         ));
 
+        // Restore previous error handler.
+        restore_error_handler();
+
         $this->buffer = array();
-    }
-
-    /**
-     * Create our index.
-     * Not used normally, for performance reasons.
-     */
-    private function create_index() {
-        $index = $this->service->getIndexes();
-
-        try {
-            $index->get($this->config->indexname);
-        } catch (\Splunk_NoSuchEntityException $e) {
-            $index->create($this->config->indexname);
-        }
     }
 }
