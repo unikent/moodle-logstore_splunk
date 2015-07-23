@@ -138,11 +138,6 @@ class splunk
             return;
         }
 
-        // Set an empty error handler, to override Kent's.
-        set_error_handler(function($errno, $errstr, $errfile, $errline) {
-            return false;
-        });
-
         // Send to Splunk.
         $reciever = $this->service->getReceiver();
         $reciever->submit(implode("\n", $this->buffer), array(
@@ -151,9 +146,6 @@ class splunk
             'source' => $this->config->source,
             'sourcetype' => 'json'
         ));
-
-        // Restore previous error handler.
-        restore_error_handler();
 
         $this->buffer = array();
     }
