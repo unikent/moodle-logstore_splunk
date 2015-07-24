@@ -138,6 +138,7 @@ class splunk
             return;
         }
 
+        // Send to Splunk.
         $reciever = $this->service->getReceiver();
         $reciever->submit(implode("\n", $this->buffer), array(
             'host' => $this->config->hostname,
@@ -147,19 +148,5 @@ class splunk
         ));
 
         $this->buffer = array();
-    }
-
-    /**
-     * Create our index.
-     * Not used normally, for performance reasons.
-     */
-    private function create_index() {
-        $index = $this->service->getIndexes();
-
-        try {
-            $index->get($this->config->indexname);
-        } catch (\Splunk_NoSuchEntityException $e) {
-            $index->create($this->config->indexname);
-        }
     }
 }
