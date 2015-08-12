@@ -78,6 +78,9 @@ class export_task extends \core\task\scheduled_task {
         }
         $rs->close();
 
+        // Flush Splunk.
+        $splunk->flush();
+
         // Update config.
         set_config('lock', 0, 'logstore_splunk');
         set_config('lastentry', $lastid, 'logstore_splunk');
