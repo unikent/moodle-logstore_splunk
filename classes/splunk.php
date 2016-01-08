@@ -34,9 +34,24 @@ class splunk
      * Constructor.
      */
     private function __construct() {
+        $this->ready = false;
+        try {
+            if ($this->setup()) {
+                $this->ready = true;
+            }
+        } catch (\Exception $e) { }
+    }
+
+    /**
+     * Setup the connection.
+     */
+    private function setup() {
         require_once(dirname(__FILE__) . '/../lib/splunk/Splunk.php');
 
         $this->config = get_config('logstore_splunk');
+        if (!isset($this->config->servername)) {
+            return false;
+        }
 
         $this->service = new \Splunk_Service(array(
             'host' => $this->config->servername,
@@ -45,14 +60,10 @@ class splunk
             'password' => $this->config->password
         ));
 
-        try {
-            // Login to Splunk.
-            $this->service->login();
+        // Login to Splunk.
+        $this->service->login();
 
-            $this->ready = true;
-        } catch (\Exception $e) {
-            $this->ready = false;
-        }
+        return true;
     }
 
     /**
