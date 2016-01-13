@@ -78,12 +78,19 @@ class splunk
     }
 
     /**
-     * Destructor.
+     * Flush buffers.
      */
-    public function __destruct() {
+    public function dispose() {
         if (!empty($this->buffer)) {
             $this->flush();
         }
+    }
+
+    /**
+     * Destructor.
+     */
+    public function __destruct() {
+        $this->dispose();
     }
 
     /**
