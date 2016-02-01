@@ -41,7 +41,6 @@ $table->setup();
 
 $table->add_data(array('Last ran', date('D, d M Y H:i:s', $config->lastrun)));
 $table->add_data(array('Progress', "{$config->lastentry} / {$maxid} ({$percent}%)"));
-$table->add_data(array('Locked?', $config->lock ? 'yes' : 'no'));
 
 $table->finish_output();
 
