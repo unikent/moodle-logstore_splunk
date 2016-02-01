@@ -49,25 +49,24 @@ class export_task extends \core\task\scheduled_task {
             return true;
         }
 
-        // Check we aren't locked.
-        if (isset($config->lock) && $config->lock == 1) {
-            return true;
-        }
-
         // Check Splunk works.
         $splunk = \logstore_splunk\splunk::instance();
         if (!$splunk->is_ready()) {
             return false;
         }
 
+        // Safeguard.
+        $lockfactory = \core\lock\lock_config::get_lock_factory('logstore_splunk');
+        $lock = $lockfactory->get_lock('sync', 5);
+
+        // Things may have changed.
+        $config = (object)$DB->get_records_menu('config_plugins', array('plugin' => 'logstore_splunk'), '', 'name, value');
+
         // Grab our last ID.
         $lastid = -1;
         if (isset($config->lastentry)) {
             $lastid = $config->lastentry;
         }
-
-        // Safeguard.
-        set_config('lock', 1, 'logstore_splunk');
 
         // Grab the recordset.
         $rs = $DB->get_recordset_select('logstore_standard_log', 'id > ?', array($lastid), 'id', '*', 0, 100000);
@@ -82,9 +81,11 @@ class export_task extends \core\task\scheduled_task {
         $splunk->flush();
 
         // Update config.
-        set_config('lock', 0, 'logstore_splunk');
         set_config('lastentry', $lastid, 'logstore_splunk');
         set_config('lastrun', time(), 'logstore_splunk');
+
+        // Unlock.
+        $lock->release();
 
         return true;
     }
