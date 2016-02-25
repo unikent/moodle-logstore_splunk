@@ -51,11 +51,8 @@ class replication_health extends \local_nagios\base_check
         $percent = ((float)$config->lastentry / (float)$maxid) * 100.0;
         $percent = number_format($percent, 2);
 
-        // Add to perf data.
-        $this->set_perf_var('splunk_replication', $percent);
-
         // Now check we aren't lagging too far behind (I.e. the next cron run is likely to pick all the entries up).
-        if (($maxid - $config->lastentry) > 100000) {
+        if (($maxid - $config->lastentry) > 10000) {
             $this->error("Splunk replication lag detected: {$config->lastentry} / {$maxid} ({$percent}%)");
         }
     }
