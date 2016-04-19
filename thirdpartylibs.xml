@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>lib/splunk</location>
+    <name>Splunk PHP SDK</name>
+    <license>Apache</license>
+    <version>1.0.1</version>
+    <licenseversion>2.0</licenseversion>
+  </library>
+</libraries>
