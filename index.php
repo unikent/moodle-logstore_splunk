@@ -40,7 +40,8 @@ $table->define_headers(array(get_string('repstatus', 'logstore_splunk'), ''));
 $table->define_baseurl($PAGE->url);
 $table->setup();
 
-$lastrun = isset($config->lastrun) ? date('D, d M Y H:i:s', $config->lastrun) : get_string('never', 'logstore_splunk');
+$timestr = get_string('strftimedatetime');
+$lastrun = isset($config->lastrun) ? strftime($timestr, $config->lastrun) : get_string('never', 'logstore_splunk');
 $table->add_data(array(get_string('lastran', 'logstore_splunk'), $lastrun));
 
 $table->add_data(array(get_string('progress', 'logstore_splunk'), "{$config->lastentry} / {$maxid} ({$percent}%)"));
