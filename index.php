@@ -25,9 +25,10 @@ require_sesskey();
 admin_externalpage_setup('logstoresplunkhealth');
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading('Splunk log store health');
+echo $OUTPUT->heading(get_string('reporttitle', 'logstore_splunk'));
 
 $config = get_config('logstore_splunk');
+$config->lastentry = isset($config->lastentry) ? $config->lastentry : 0;
 
 $maxid = $DB->get_field('logstore_standard_log', 'MAX(id)', array());
 $percent = ((float)$config->lastentry / (float)$maxid) * 100.0;
@@ -35,12 +36,14 @@ $percent = number_format($percent, 2);
 
 $table = new \flexible_table("splunk_health");
 $table->define_columns(array('variable', 'value'));
-$table->define_headers(array('Replication Status', ''));
+$table->define_headers(array(get_string('repstatus', 'logstore_splunk'), ''));
 $table->define_baseurl($PAGE->url);
 $table->setup();
 
-$table->add_data(array('Last ran', date('D, d M Y H:i:s', $config->lastrun)));
-$table->add_data(array('Progress', "{$config->lastentry} / {$maxid} ({$percent}%)"));
+$lastrun = isset($config->lastrun) ? date('D, d M Y H:i:s', $config->lastrun) : get_string('never', 'logstore_splunk');
+$table->add_data(array(get_string('lastran', 'logstore_splunk'), $lastrun));
+
+$table->add_data(array(get_string('progress', 'logstore_splunk'), "{$config->lastentry} / {$maxid} ({$percent}%)"));
 
 $table->finish_output();
 

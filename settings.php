@@ -18,55 +18,60 @@
  * Splunk log store settings.
  *
  * @package    logstore_splunk
- * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2016 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
-    $healthurl = new moodle_url('/admin/tool/log/store/splunk/health.php', array('sesskey' => sesskey()));
-    $ADMIN->add('logging', new admin_externalpage('logstoresplunkhealth', 'Splunk health', $healthurl, 'moodle/site:config'));
+    $healthurl = new moodle_url('/admin/tool/log/store/splunk/index.php', array('sesskey' => sesskey()));
+    $ADMIN->add('reports', new admin_externalpage(
+        'logstoresplunkhealth',
+        new lang_string('reporttitle', 'logstore_splunk'),
+        $healthurl,
+        'moodle/site:config'
+    ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/servername',
-        get_string('servername', 'logstore_splunk'),
+        new lang_string('servername', 'logstore_splunk'),
         '', 'localhost', PARAM_HOST
     ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/port',
-        get_string('port', 'logstore_splunk'),
+        new lang_string('port', 'logstore_splunk'),
         '', '8089', PARAM_INT
     ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/username',
-        get_string('username'),
+        new lang_string('username'),
         '', 'admin', PARAM_ALPHANUMEXT
     ));
 
     $settings->add(new admin_setting_configpasswordunmask(
         'logstore_splunk/password',
-        get_string('password'),
+        new lang_string('password'),
         '', '', PARAM_ALPHANUMEXT
     ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/indexname',
-        get_string('indexname', 'logstore_splunk'),
+        new lang_string('indexname', 'logstore_splunk'),
         '', 'moodle', PARAM_ALPHANUMEXT
     ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/hostname',
-        get_string('hostname', 'logstore_splunk'),
-        '', 'moodle.kent.ac.uk', PARAM_HOST
+        new lang_string('hostname', 'logstore_splunk'),
+        '', $CFG->wwwroot, PARAM_HOST
     ));
 
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/source',
-        get_string('source', 'logstore_splunk'),
+        new lang_string('source', 'logstore_splunk'),
         '', 'Moodle', PARAM_TEXT
     ));
 

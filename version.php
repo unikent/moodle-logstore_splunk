@@ -18,12 +18,12 @@
  * Splunk log store.
  *
  * @package    logstore_splunk
- * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2016 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2015072000; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2016041900; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2015050500; // Requires this Moodle version.
 $plugin->component = 'logstore_splunk'; // Full name of the plugin (used for diagnostics).
