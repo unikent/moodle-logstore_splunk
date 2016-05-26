@@ -66,7 +66,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext(
         'logstore_splunk/hostname',
         new lang_string('hostname', 'logstore_splunk'),
-        '', $CFG->wwwroot, PARAM_HOST
+        '', gethostname(), PARAM_HOST
     ));
 
     $settings->add(new admin_setting_configtext(
